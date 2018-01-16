@@ -13,9 +13,6 @@ pipeline {
 			steps {	
 				echo 'Building...'
 				sh "mvn clean install"
-			}
-			steps {	
-				echo 'Copying Artifacts...'
 				archiveArtifacts artifacts: '**/*.war', onlyIfSuccessful: true
 			}
  		}
