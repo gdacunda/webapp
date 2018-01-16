@@ -13,6 +13,7 @@ pipeline {
 			steps {	
 				echo 'Building...'
 				sh "mvn clean install"
+				archiveArtifacts '**/*.war'
 			}
  		}
 		stage('Test') {
