@@ -29,7 +29,7 @@ pipeline {
         stage('Publish') {
 			steps {
                 sh """
-                    docker login -u=${REGISTRY_AUTH_USR} -p=${REGISTRY_AUTH_PSW}"
+                    docker login -u=${REGISTRY_AUTH_USR} -p=${REGISTRY_AUTH_PSW}
                     docker tag ${TAGGED_IMAGE_NAME} ${IMAGE_NAME}:latest
                     docker push ${TAGGED_IMAGE_NAME}
                     docker push ${IMAGE_NAME}:latest
