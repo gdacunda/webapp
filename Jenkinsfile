@@ -19,8 +19,8 @@ pipeline {
 			steps {	
 				echo 'Packaging...'
                 
-                image_name = "gdacunda/webapp"
-                tagged_image_name = "${image_name}:${env.BUILD_ID}"
+                def image_name = "gdacunda/webapp"
+                def tagged_image_name = "${image_name}:${env.BUILD_ID}"
                 
                 sh "docker build -t ${tagged_image_name} ."                 
 			}
