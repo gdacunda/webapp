@@ -3,6 +3,10 @@ pipeline {
 	tools {
 		maven 'apache-maven-3.5.2'
 	}
+    environment {
+        IMAGE_NAME = "gdacunda/webapp"
+        TAGGED_IMAGE_NAME = "${IMAGE_NAME}:${env.BUILD_ID}"
+    }    
 	stages {
 		stage('Checkout') {
 			steps {
@@ -18,11 +22,7 @@ pipeline {
 		stage('Package') {
 			steps {	
 				echo 'Packaging...'
-                
-                def image_name = "gdacunda/webapp"
-                def tagged_image_name = "${image_name}:${env.BUILD_ID}"
-                
-                sh "docker build -t ${tagged_image_name} ."                 
+                sh "docker build -t ${IMAGE_NAME} ."                 
 			}
  		}
 		stage('Test') {
