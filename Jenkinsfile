@@ -22,7 +22,7 @@ pipeline {
 		stage('Package') {
 			steps {	
 				echo 'Packaging...'
-                sh "docker build -t ${IMAGE_NAME} ."                 
+                sh "docker build -t ${TAGGED_IMAGE_NAME} ."                 
 			}
  		}
 		stage('Test') {
