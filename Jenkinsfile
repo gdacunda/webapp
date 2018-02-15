@@ -10,7 +10,7 @@ pipeline {
 			}
 		}
 		stage('Build') {
-			steps {	
+			steps {
 				echo 'Building...'
 				sh "mvn clean install"
 			}
@@ -18,8 +18,11 @@ pipeline {
 		stage('Package') {
 			steps {	
 				echo 'Packaging...'
-				def customImage = docker.build("gdacunda/webapp:${env.BUILD_ID}")
-                customImage.push()
+                
+                image_name = "gdacunda/webapp"
+                tagged_image_name = "${image_name}:${env.BUILD_ID}"
+                
+                sh "docker build -t ${tagged_image_name} ."                 
 			}
  		}
 		stage('Test') {
