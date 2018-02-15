@@ -6,6 +6,7 @@ pipeline {
     environment {
         IMAGE_NAME = "gdacunda/webapp"
         TAGGED_IMAGE_NAME = "${IMAGE_NAME}:${env.BUILD_ID}"
+        REGISTRY_AUTH = credentials("dockerhub-credentials")
     }    
 	stages {
 		stage('Checkout') {
@@ -25,6 +26,14 @@ pipeline {
                 sh "docker build -t ${TAGGED_IMAGE_NAME} ."                 
 			}
  		}
+        stage('Publish') {
+            sh """
+                docker login -u=${REGISTRY_AUTH_USR} -p=${REGISTRY_AUTH_PSW}"
+                docker tag ${TAGGED_IMAGE_NAME} ${IMAGE_NAME}:latest
+                docker push ${TAGGED_IMAGE_NAME}
+                docker push ${IMAGE_NAME}:latest
+            """
+        }         
 		stage('Test') {
 			steps {
 				echo 'Testing...'
