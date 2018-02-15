@@ -1,5 +1,5 @@
 pipeline {
-	agent any
+	agent { dockerfile true }
 	tools {
 		maven 'apache-maven-3.5.2'
 	}
@@ -13,6 +13,13 @@ pipeline {
 			steps {	
 				echo 'Building...'
 				sh "mvn clean install"
+			}
+ 		}
+		stage('Package') {
+			steps {	
+				echo 'Packaging...'
+				def customImage = docker.build("gdacunda/webapp:${env.BUILD_ID}")
+                customImage.push()
 			}
  		}
 		stage('Test') {
