@@ -47,15 +47,24 @@ resource "aws_autoscaling_group" "web-asg" {
   desired_capacity     = "${var.asg_desired}"
   force_delete         = true
   min_elb_capacity     = "${var.asg_desired}"
+  wait_for_capacity_timeout = "20m"
   launch_configuration = "${aws_launch_configuration.web-lc.name}"
   load_balancers       = ["${aws_elb.web-elb.name}"]
   vpc_zone_identifier  = ["${aws_subnet.default.id}"]
 
-  tag {
-    key                 = "Name"
-    value               = "webapp-server"
-    propagate_at_launch = "true"
-  }
+  tag [
+    {
+      key                 = "Name"
+      value               = "webapp-server"
+      propagate_at_launch = "true"
+    },
+    {
+      key                 = "Image"
+      value               = "${var.docker_image}"
+      propagate_at_launch = "true"
+    },
+  ]
+  
 }
 
 data "template_file" "webapp_install" {
