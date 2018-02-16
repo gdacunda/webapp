@@ -13,11 +13,6 @@ pipeline {
         TAGGED_IMAGE_NAME = "${IMAGE_NAME}:${env.BUILD_ID}"
     }    
 	stages {
-		stage('Checkout') {
-			steps {
-				checkout scm
-			}
-		}
 		stage('Build') {
 			steps {
 				echo 'Building...'
@@ -55,7 +50,7 @@ pipeline {
 			steps {
                 dir("deployment") {
                     echo 'Deploying....'
-                    // sh "terraform apply -input=false tfplan "
+                    sh "terraform apply -input=false tfplan "
                 }
 			}
 		}	
@@ -63,7 +58,7 @@ pipeline {
 			steps {
                 dir("deployment") {
                     echo 'Testing...'
-                    // sh "terraform show"
+                    sh "terraform show"
                 }
 			}
 		}
