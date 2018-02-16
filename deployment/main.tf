@@ -52,7 +52,7 @@ resource "aws_autoscaling_group" "web-asg" {
   load_balancers       = ["${aws_elb.web-elb.name}"]
   vpc_zone_identifier  = ["${aws_subnet.default.id}"]
 
-  tag [
+  tag = [
     {
       key                 = "Name"
       value               = "webapp-server"
@@ -62,7 +62,7 @@ resource "aws_autoscaling_group" "web-asg" {
       key                 = "Image"
       value               = "${var.docker_image}"
       propagate_at_launch = "true"
-    },
+    }
   ]
   
 }
