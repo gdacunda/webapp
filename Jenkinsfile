@@ -4,9 +4,9 @@ pipeline {
 		maven 'apache-maven-3.5.2'
 	}
     environment {
-        IMAGE_NAME = "gdacunda/webapp"
-        TAGGED_IMAGE_NAME = "${IMAGE_NAME}:${env.BUILD_ID}"
         REGISTRY_AUTH = credentials("dockerhub-credentials")
+        IMAGE_NAME = "${REGISTRY_AUTH_USR}/webapp"
+        TAGGED_IMAGE_NAME = "${IMAGE_NAME}:${env.BUILD_ID}"
     }    
 	stages {
 		stage('Checkout') {
@@ -28,6 +28,7 @@ pipeline {
  		}
         stage('Publish') {
 			steps {
+				echo 'Publishing...'
                 sh '''
                     docker login -u=${REGISTRY_AUTH_USR} -p=${REGISTRY_AUTH_PSW}
                     docker tag ${TAGGED_IMAGE_NAME} ${IMAGE_NAME}:latest
